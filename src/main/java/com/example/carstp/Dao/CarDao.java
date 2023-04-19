@@ -90,6 +90,44 @@ public class CarDao {
         }
         return name;
     }
+    public Car createCar(String name, String detail, String photo, int price,int categoryId) {
+        final String sql = "INSERT INTO car (name, detail_text, photo,price,category_id) VALUES (?, ?, ?,?,?)";
+
+        Car newCar = null;
+        try {
+
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
 
 
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, name);
+            statement.setString(2, detail);
+            statement.setString(3, photo);
+            statement.setInt(4, price);
+            statement.setInt(5, categoryId);
+            statement.executeUpdate();
+            newCar = new Car(name, detail, photo,price,categoryId);
+
+
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+        return newCar;
+    }
+
+    public void deleteCar(int carId) {
+        final String sql = "DELETE FROM car WHERE id = ?";
+
+        try (Connection connection = DriverManager.getConnection(URL,USER, PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, carId);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

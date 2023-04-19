@@ -20,6 +20,9 @@
 <c:if test="${empty cars}">
     <p>Aucune voiture trouvé.</p>
 </c:if>
+<% if(request.getSession().getAttribute("username") != null) { %>
+<a href="secured/create" class="btn btn-success">nouvelle voiture</a>
+<% } %>
 <h1 style="text-align: center; margin-top: 10px";>Liste des voitures</h1>
 <div class=" container " style="display: grid;grid-template-columns: repeat(3, 1fr);
 grid-column-gap: 20px;
@@ -30,7 +33,14 @@ grid-row-gap: 20px; ">
         <div class="card-body">
             <h5 class="card-title">${car.name}</h5>
             <p class="card-text">${carDao.getNameById(car.category_id)}</p>
+            <% if(request.getSession().getAttribute("username") != null) { %>
+            <!-- Boutons pour utilisateur connecté -->
             <a href="detail?id=${car.id}" class="btn btn-primary">Details</a>
+            <a href="secured/delete?id=${car.id} " class="btn btn-danger">Supprimer</a>
+            <% } else { %>
+            <!-- Bouton pour utilisateur non connecté -->
+            <a href="detail?id=${car.id}" class="btn btn-primary">Details</a>
+            <% } %>
         </div>
     </div>
     </c:forEach>
