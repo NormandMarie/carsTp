@@ -70,6 +70,34 @@ public class categoryDao {
 
         return newPost;
     }
+    public void updateCat(int id, String name) {
+        try { Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection =  DriverManager.getConnection(URL,USER, PASSWORD);
+            PreparedStatement statement = connection.prepareStatement("UPDATE category SET name=(?) WHERE id=(?)");
+            statement.setString(1, name);
+            statement.setInt(2, id);
+            statement.executeUpdate();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Category getCategoryById(int id) throws SQLException {
+        Category category = null;
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
+            String sql = "SELECT * FROM category WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                category = new Category(resultSet.getInt("id"), resultSet.getString("name"));
+            }
+        }
+        return category;
+    }
 }
 
 
