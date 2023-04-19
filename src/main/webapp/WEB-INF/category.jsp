@@ -19,6 +19,9 @@
 <c:if test="${empty categorys}">
     <p>Aucune voiture trouvé.</p>
 </c:if>
+<% if(request.getSession().getAttribute("username") != null) { %>
+<a href="secured/newCategory" class="btn btn-success">nouvelle catégorie</a>
+<%}%>
 <h1 style="text-align: center; margin-top: 10px";>Liste des catégories</h1>
 <div class=" container " style="display: grid;grid-template-columns: repeat(3, 1fr);
 grid-column-gap: 20px;
@@ -27,6 +30,10 @@ grid-row-gap: 20px; margin-top: 20px">
     <div class="card" style="width: 16rem;">
         <div class="card-body category-card">
             <h3 class="card-title">${category.name}</h3>
+            <% if(request.getSession().getAttribute("username") != null) { %>
+            <a href="secured/deleteCategory?id=${category.id} " class="btn btn-danger">Supprimer</a>
+            <a href="secured/editCategory?id=${category.id} " class="btn btn-info">editer</a>
+            <%}%>
         </div>
     </div>
     </c:forEach>

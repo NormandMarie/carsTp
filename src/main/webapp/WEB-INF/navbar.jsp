@@ -23,8 +23,11 @@
     <form class="form-inline">
        <a href="${pageContext.request.contextPath}/Accueil">Accueil</a>
         <a href="${pageContext.request.contextPath}/category">list catégorie</a>
+        <% if(request.getSession().getAttribute("username") != null) { %>
         <a href="${pageContext.request.contextPath}/secured/logout">Déconnexion</a>
+        <% } else { %>
         <a href="${pageContext.request.contextPath}/login">connexion</a>
+        <% } %>
     </form>
 </nav>
 </body>

@@ -34,6 +34,42 @@ public class categoryDao {
         }
         return categorys;
     }
+    public void deleteCategory(int catId) {
+        final String sql = "DELETE FROM category WHERE id = ?";
+
+        try (Connection connection = DriverManager.getConnection(URL,USER, PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, catId);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public Category createCategory(String name) {
+        final String sql = "INSERT INTO category (name) VALUES (?)";
+
+        Category newPost = null;
+        try {
+
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection(URL,USER,PASSWORD);
+
+
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, name);
+            statement.executeUpdate();
+            newPost = new Category(name);
+
+
+            //connection.close();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+        return newPost;
+    }
 }
 
 
