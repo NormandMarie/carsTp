@@ -13,6 +13,7 @@
     <title>Détail car</title>
 </head>
 <body>
+<%@ include file="navbar.jsp" %>
 <div class="container mx-auto">
     <h1 class="text-center">${car.name}</h1>
     <div class="row">
